@@ -1,6 +1,7 @@
 package com.lxh.iam.utils;
 
 import com.lxh.iam.comm.Const;
+import com.lxh.iam.dto.UserDto;
 import com.lxh.iam.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -112,7 +113,7 @@ public class JwtTokenUtil implements Serializable {
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {
-        User user = (User) userDetails;
+        UserDto user = (UserDto) userDetails;
         final String username = getUsernameFromToken(token);
         return (
                 username.equals(user.getUsername())
