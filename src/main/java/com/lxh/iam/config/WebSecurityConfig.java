@@ -1,11 +1,13 @@
 package com.lxh.iam.config;
 
 import com.github.dreamyoung.mprelation.AutoMapper;
+import com.lxh.iam.filter.ExceptionFilter;
 import com.lxh.iam.filter.JwtTokenFilter;
 import com.lxh.iam.service.IUserService;
 import com.lxh.iam.utils.SecurityUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -25,7 +27,17 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final SecurityUserService securityUserService;
+    private final ExceptionFilter exceptionFilter;
 
+    @Bean
+    public FilterRegistrationBean registerExceptionFilter() {
+        FilterRegistrationBean bean = new FilterRegistrationBean();
+        bean.setFilter(exceptionFilter);
+        bean.setName("exceptionFilter");
+        bean.addUrlPatterns("/*");
+        bean.setOrder(-1);
+        return bean;
+    }
     @Bean
     public JwtTokenFilter authenticationTokenFilterBean() throws Exception {
         return new JwtTokenFilter();
@@ -63,5 +75,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 
 }
