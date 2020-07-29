@@ -79,3 +79,28 @@
 |  |  |  |  |  ├─advice
 |  |  |  |  |  |   └ActionAdvice.java # controller advice
 ```
+
+# docker 
+1. layers
+To examine the layers of any layered jar, we can run the command:
+```shell script
+java -Djarmode=layertools -jar iam-0.0.1-SNAPSHOT.jar list
+```
+
+Then to extract them, we would run:
+```shell script
+java -Djarmode=layertools -jar iam-0.0.1-SNAPSHOT.jar extract
+```
+## 生成docker 文件
+```shell script
+docker  build -t iam-keycloak:0.0.1 .  
+```
+
+## 运行程序
+```shell script
+docker run --rm -p 8080:8080 iam-keycloak:0.0.1
+```
+## 查看Docker执行历史 
+```shell script
+docker history iam-keycloak:0.0.1
+```
